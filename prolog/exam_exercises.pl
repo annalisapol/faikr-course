@@ -62,3 +62,29 @@ checkEven([H | L1], N, [H | L2]):-
 checkEven([_ | L1], N, L2):- 
     N1 is N+1, 
         checkEven(L1, N1, L2).
+
+/*
+teaches(Professor, Course).
+attends(Student, Course).
+Definire: only_professors(L) , che restituisce la lista delle persone 
+che insegnano almeno un corso ma non frequentano alcun corso.
+Senza ripetizioni.
+*/
+
+teaches(p1, c2).
+teaches(p2, c1).
+attends(p1, c4).
+attends(p3, c2).
+attends(p4, c1).
+
+only_professors(L):-
+    findall(X, teaches(X,_), AllProf),
+    findall(X, attends(X,_), AllStud),
+	remove(AllProf, AllStud, L).
+
+remove([], _, []).
+remove([H1 | L1], L2, L3):-
+    member(H1, L2), !,
+    remove(L1, L2, L3).
+remove([H1 | L1], L2, [H1 |L3]):-
+    remove(L1, L2, L3).
